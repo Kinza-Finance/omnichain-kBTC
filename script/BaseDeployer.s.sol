@@ -32,6 +32,7 @@ contract BaseDeployer is Script {
         Mumbai,
         BscTest,
         Fuji,
+        ArbitrumSepolia,
         ArbitrumGoerli,
         OptimismGoerli,
         Moonriver,
@@ -107,6 +108,7 @@ contract BaseDeployer is Script {
         forks[Chains.LocalBSCTest] = "localBSCTest";
 
         // Testnet
+        forks[Chains.ArbitrumSepolia] = 'arbitriumsepolia';
         forks[Chains.Opbnbtest] = "opbnbtest";
         forks[Chains.MantleSepolia] = "mantlesepolia";
         forks[Chains.Goerli] = "goerli";

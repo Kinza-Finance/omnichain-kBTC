@@ -12,8 +12,10 @@ sepolia = "${SEPOLIA_RPC_URL}"
 bsctest = "${BSCTEST_RPC_URL}"
 mantleSepolia = "${MANTLE_SEPOLIA_RPC_URL}"
 opbnbtest = "${OPBNBTEST_RPC_URL}"
-[etherscan]
+arbitriumsepolia = "${ARBSEPOLIA_RPC_URL}"
 
+[etherscan]
+arbitriumsepolia = { key = "${ARBSCAN_API_KEY}" }
 mumbai = { key = "${POLYGONSCAN_API_KEY}", chain = "mumbai" }
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
 bsctest = { key = "${BSCTEST_API_KEY}" }

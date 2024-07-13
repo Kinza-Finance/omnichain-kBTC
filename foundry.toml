@@ -9,7 +9,13 @@ libs = ["lib"]
 [rpc_endpoints]
 mumbai = "${MUMBAI_RPC_URL}"
 sepolia = "${SEPOLIA_RPC_URL}"
-
+bsctest = "${BSCTEST_RPC_URL}"
+mantleSepolia = "${MANTLE_SEPOLIA_RPC_URL}"
+opbnbtest = "${OPBNBTEST_RPC_URL}"
 [etherscan]
+
 mumbai = { key = "${POLYGONSCAN_API_KEY}", chain = "mumbai" }
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
+bsctest = { key = "${BSCTEST_API_KEY}" }
+mantleSepolia = { key = "${MANTLE_SEPOLIA_API_KEY}" }
+opbnbtest  = { key = "${OPBNBTEST_API_KEY}" }

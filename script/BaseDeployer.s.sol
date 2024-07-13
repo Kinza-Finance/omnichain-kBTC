@@ -21,6 +21,10 @@ contract BaseDeployer is Script {
     address internal proxyCounterAddress;
 
     enum Chains {
+        Opbnbtest,
+        Opbnb,
+        Mantle,
+        MantleSepolia,
         LocalGoerli,
         LocalFuji,
         LocalBSCTest,
@@ -103,6 +107,8 @@ contract BaseDeployer is Script {
         forks[Chains.LocalBSCTest] = "localBSCTest";
 
         // Testnet
+        forks[Chains.Opbnbtest] = "opbnbtest";
+        forks[Chains.MantleSepolia] = "mantlesepolia";
         forks[Chains.Goerli] = "goerli";
         forks[Chains.Mumbai] = "mumbai";
         forks[Chains.BscTest] = "bsctest";
@@ -114,6 +120,8 @@ contract BaseDeployer is Script {
         forks[Chains.Sepolia] = "sepolia";
 
         // Mainnet
+        forks[Chains.Opbnb] = "opbnb";
+        forks[Chains.Mantle] = "mantle";
         forks[Chains.Etherum] = "etherum";
         forks[Chains.Polygon] = "polygon";
         forks[Chains.Bsc] = "bsc";

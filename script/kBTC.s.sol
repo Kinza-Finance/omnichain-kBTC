@@ -24,7 +24,7 @@ contract DeploykBTC is Script, BaseDeployer {
     function setUp() public {
         // Endpoint configuration from: https://docs.layerzero.network/contracts/endpoint-addresses
         targetChains.push(LayerZeroChainDeployment(Chains.Sepolia, 0x464570adA09869d8741132183721B4f0769a0287));
-        targetChains.push(LayerZeroChainDeployment(Chains.Mumbai, 0x464570adA09869d8741132183721B4f0769a0287));
+        targetChains.push(LayerZeroChainDeployment(Chains.BscTest, 0x464570adA09869d8741132183721B4f0769a0287));
     }
 
     function run() public {}

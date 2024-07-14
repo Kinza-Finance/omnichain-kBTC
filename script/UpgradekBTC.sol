@@ -16,8 +16,8 @@ contract UpgradekBTC is Script, BaseDeployer {
     function upgradeTestnet() external setEnvUpgrade(Cycle.Test) {
         Chains[] memory upgradeForks = new Chains[](2);
 
-        upgradeForks[0] = Chains.Sepolia;
-        upgradeForks[1] = Chains.Mumbai;
+        upgradeForks[0] = Chains.ArbitrumSepolia;
+        upgradeForks[1] = Chains.BscTest;
 
         createUpgradeMultichain(upgradeForks);
     }

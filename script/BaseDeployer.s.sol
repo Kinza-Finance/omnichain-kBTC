@@ -21,31 +21,17 @@ contract BaseDeployer is Script {
     address internal proxyCounterAddress;
 
     enum Chains {
-        Opbnbtest,
+        OpbnbTest,
         Opbnb,
         Mantle,
         MantleSepolia,
         LocalGoerli,
         LocalFuji,
         LocalBSCTest,
-        Goerli,
-        Mumbai,
         BscTest,
-        Fuji,
         ArbitrumSepolia,
-        ArbitrumGoerli,
-        OptimismGoerli,
-        Moonriver,
-        Shiden,
         Etherum,
-        Polygon,
-        Bsc,
-        Avalanche,
-        Arbitrum,
-        Optimism,
-        Moonbeam,
-        Astar,
-        Sepolia
+        Bsc
     }
 
     enum Cycle {
@@ -109,29 +95,15 @@ contract BaseDeployer is Script {
 
         // Testnet
         forks[Chains.ArbitrumSepolia] = 'arbitriumsepolia';
-        forks[Chains.Opbnbtest] = "opbnbtest";
+        forks[Chains.OpbnbTest] = "opbnbtest";
         forks[Chains.MantleSepolia] = "mantlesepolia";
-        forks[Chains.Goerli] = "goerli";
-        forks[Chains.Mumbai] = "mumbai";
         forks[Chains.BscTest] = "bsctest";
-        forks[Chains.Fuji] = "fuji";
-        forks[Chains.ArbitrumGoerli] = "arbitrumgoerli";
-        forks[Chains.OptimismGoerli] = "optimismgoerli";
-        forks[Chains.Moonriver] = "moonriver";
-        forks[Chains.Shiden] = "shiden";
-        forks[Chains.Sepolia] = "sepolia";
 
         // Mainnet
         forks[Chains.Opbnb] = "opbnb";
         forks[Chains.Mantle] = "mantle";
         forks[Chains.Etherum] = "etherum";
-        forks[Chains.Polygon] = "polygon";
         forks[Chains.Bsc] = "bsc";
-        forks[Chains.Avalanche] = "avalanche";
-        forks[Chains.Arbitrum] = "arbitrum";
-        forks[Chains.Optimism] = "optimism";
-        forks[Chains.Moonbeam] = "moonbeam";
-        forks[Chains.Astar] = "astar";
     }
 
     function createFork(Chains chain) public {

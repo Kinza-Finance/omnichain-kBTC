@@ -14,7 +14,7 @@ mantlesepolia = "${MANTLE_SEPOLIA_RPC_URL}"
 opbnbtest = "${OPBNBTEST_RPC_URL}"
 arbitriumsepolia = "${ARBSEPOLIA_RPC_URL}"
 ethereum = "${ETHEREUM_RPC_URL}"
-mantle = "${ARBSEPOLIA_RPC_URL}"
+mantle = "${MANTLE_RPC_URL}"
 bsc = "${BSC_RPC_URL}"
 opbnb = "${OPBNB_RPC_URL}"
 
@@ -28,4 +28,4 @@ opbnbtest  = { key = "${OPBNBTEST_API_KEY}" }
 ethereum =  { key ="${ETHERSCAN_API_KEY}"}
 mantle =  { key ="${MANTLESCAN_API_KEY}"}
 bsc =  { key ="${BSCSCAN_API_KEY}"}
-opbnb =  { key ="${BSCSCAN_API_KEY}"}
+opbnb =  { key ="${OPBNBSCAN_API_KEY}"}

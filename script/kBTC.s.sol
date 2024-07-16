@@ -9,7 +9,7 @@ import {OFT} from "../src/OFT.sol";
 import {UUPSProxy} from "../src/UUPSProxy.sol";
 
 contract DeploykBTC is Script, BaseDeployer {
-    address private create2addrCounter;
+    address private kbtccreate2addrkBTC;
     address private create2addrProxy;
 
     kBTC private wrappedProxy;
@@ -23,17 +23,27 @@ contract DeploykBTC is Script, BaseDeployer {
 
     function setUp() public {
         // Endpoint configuration from: https://docs.layerzero.network/contracts/endpoint-addresses
-        targetChains.push(LayerZeroChainDeployment(Chains.ArbitrumSepolia, 0x6EDCE65403992e310A62460808c4b910D972f10f));
-        targetChains.push(LayerZeroChainDeployment(Chains.BscTest, 0x6EDCE65403992e310A62460808c4b910D972f10f));
-        targetChains.push(LayerZeroChainDeployment(Chains.OpbnbTest, 0x6EDCE65403992e310A62460808c4b910D972f10f));
-        targetChains.push(LayerZeroChainDeployment(Chains.MantleSepolia, 0x6EDCE65403992e310A62460808c4b910D972f10f));
+        // targetChains.push(LayerZeroChainDeployment(Chains.Ethereum, 0x1a44076050125825900e736c501f859c50fE728c));
+        // targetChains.push(LayerZeroChainDeployment(Chains.Bsc, 0x1a44076050125825900e736c501f859c50fE728c));
+        // targetChains.push(LayerZeroChainDeployment(Chains.Opbnb, 0x1a44076050125825900e736c501f859c50fE728c));
+         targetChains.push(LayerZeroChainDeployment(Chains.Mantle, 0x1a44076050125825900e736c501f859c50fE728c));
+        //targetChains.push(LayerZeroChainDeployment(Chains.MantleSepolia, 0x6EDCE65403992e310A62460808c4b910D972f10f));
+        
     }
 
     function run() public {}
 
-    function deploykBTCTestnet(uint256 _counterSalt, uint256 _counterProxySalt) public setEnvDeploy(Cycle.Test) {
-        counterSalt = bytes32(_counterSalt);
-        counterProxySalt = bytes32(_counterProxySalt);
+
+    function deploykBTCProd(uint256 _kbtcSalt, uint256 _proxySalt) public setEnvDeploy(Cycle.Prod) {
+        salt = bytes32(_kbtcSalt);
+        proxySalt = bytes32(_proxySalt);
+
+        createDeployMultichain();
+    }
+
+    function deploykBTCTestnet(uint256 _kbtcSalt, uint256 _proxySalt) public setEnvDeploy(Cycle.Test) {
+        salt = bytes32(_kbtcSalt);
+        proxySalt = bytes32(_proxySalt);
 
         createDeployMultichain();
     }
@@ -49,7 +59,7 @@ contract DeploykBTC is Script, BaseDeployer {
             uint256 forkId = createSelectFork(targetChains[i].chain);
             forkIds[i] = forkId;
 
-            deployedContracts[i] = chainDeployCounter(targetChains[i].endpoint);
+            deployedContracts[i] = chainDeploy(targetChains[i].endpoint);
 
             ++i;
         }
@@ -58,47 +68,47 @@ contract DeploykBTC is Script, BaseDeployer {
     }
 
     /// @dev Function to perform actual deployment.
-    function chainDeployCounter(address lzEndpoint)
+    function chainDeploy(address lzEndpoint)
         private
-        computeCreate2(counterSalt, counterProxySalt, lzEndpoint)
+        computeCreate2(salt, proxySalt, lzEndpoint)
         broadcast(deployerPrivateKey)
         returns (address deployedContract)
     {
-        kBTC kbtc = new kBTC{salt: counterSalt}();
+        kBTC kbtc = new kBTC{salt: salt}();
 
-        require(create2addrCounter == address(kbtc), "Implementation address mismatch");
+        require(kbtccreate2addrkBTC == address(kbtc), "Implementation address mismatch");
 
         console2.log("kBTC address:", address(kbtc), "\n");
 
-        proxyCounter = new UUPSProxy{salt: counterProxySalt}(
+        proxy = new UUPSProxy{salt: proxySalt}(
             address(kbtc), abi.encodeWithSelector(OFT.initialize.selector, "Kinza Babylon Staked BTC", "kBTC", lzEndpoint, ownerAddress)
         );
 
-        proxyCounterAddress = address(proxyCounter);
+        proxyAddress = address(proxy);
 
-        require(create2addrProxy == proxyCounterAddress, "Proxy address mismatch");
+        require(create2addrProxy == proxyAddress, "Proxy address mismatch");
 
-        wrappedProxy = kBTC(proxyCounterAddress);
+        wrappedProxy = kBTC(proxyAddress);
 
         require(wrappedProxy.owner() == ownerAddress, "Owner role mismatch");
 
-        console2.log("kBTC Proxy address:", address(proxyCounter), "\n");
+        console2.log("kBTC Proxy address:", address(proxy), "\n");
 
-        return address(proxyCounter);
+        return address(proxy);
     }
 
     /// @dev Compute the CREATE2 addresses for contracts (proxy, kbtc).
     /// @param saltCounter The salt for the kbtc contract.
     /// @param saltProxy The salt for the proxy contract.
     modifier computeCreate2(bytes32 saltCounter, bytes32 saltProxy, address lzEndpoint) {
-        create2addrCounter = vm.computeCreate2Address(saltCounter, hashInitCode(type(kBTC).creationCode));
+        kbtccreate2addrkBTC = vm.computeCreate2Address(saltCounter, hashInitCode(type(kBTC).creationCode));
 
         create2addrProxy = vm.computeCreate2Address(
             saltProxy,
             hashInitCode(
                 type(UUPSProxy).creationCode,
                 abi.encode(
-                    create2addrCounter, abi.encodeWithSelector(OFT.initialize.selector, "Kinza Babylon Staked BTC", "kBTC", lzEndpoint, ownerAddress)
+                    kbtccreate2addrkBTC, abi.encodeWithSelector(OFT.initialize.selector, "Kinza Babylon Staked BTC", "kBTC", lzEndpoint, ownerAddress)
                 )
             )
         );

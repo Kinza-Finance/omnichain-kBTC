@@ -10,15 +10,15 @@ import {UUPSProxy} from "../src/UUPSProxy.sol";
 // taken from: https://github.com/timurguvenkaya/foundry-multichain/blob/main/script/BaseDeployer.s.sol
 /* solhint-disable max-states-count */
 contract BaseDeployer is Script {
-    UUPSProxy internal proxyCounter;
+    UUPSProxy internal proxy;
 
-    bytes32 internal counterProxySalt;
-    bytes32 internal counterSalt;
+    bytes32 internal proxySalt;
+    bytes32 internal salt;
 
     uint256 internal deployerPrivateKey;
 
     address internal ownerAddress;
-    address internal proxyCounterAddress;
+    address internal proxyAddress;
 
     enum Chains {
         OpbnbTest,
@@ -30,7 +30,7 @@ contract BaseDeployer is Script {
         LocalBSCTest,
         BscTest,
         ArbitrumSepolia,
-        Etherum,
+        Ethereum,
         Bsc
     }
 
@@ -65,13 +65,13 @@ contract BaseDeployer is Script {
     modifier setEnvUpgrade(Cycle cycle) {
         if (cycle == Cycle.Dev) {
             deployerPrivateKey = vm.envUint("LOCAL_DEPLOYER_KEY");
-            proxyCounterAddress = vm.envAddress("LOCAL_COUNTER_PROXY_ADDRESS");
+            proxyAddress = vm.envAddress("LOCAL_COUNTER_PROXY_ADDRESS");
         } else if (cycle == Cycle.Test) {
             deployerPrivateKey = vm.envUint("TEST_DEPLOYER_KEY");
-            proxyCounterAddress = vm.envAddress("TEST_COUNTER_PROXY_ADDRESS");
+            proxyAddress = vm.envAddress("TEST_COUNTER_PROXY_ADDRESS");
         } else {
             deployerPrivateKey = vm.envUint("DEPLOYER_KEY");
-            proxyCounterAddress = vm.envAddress("COUNTER_PROXY_ADDRESS");
+            proxyAddress = vm.envAddress("COUNTER_PROXY_ADDRESS");
         }
 
         _;
@@ -102,7 +102,7 @@ contract BaseDeployer is Script {
         // Mainnet
         forks[Chains.Opbnb] = "opbnb";
         forks[Chains.Mantle] = "mantle";
-        forks[Chains.Etherum] = "etherum";
+        forks[Chains.Ethereum] = "ethereum";
         forks[Chains.Bsc] = "bsc";
     }
 

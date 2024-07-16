@@ -50,7 +50,7 @@ contract UpgradekBTC is Script, BaseDeployer {
         //solhint-disable-next-line no-unused-vars
         kBTC impl = new kBTC();
 
-        wrappedProxy = kBTC(proxyCounterAddress);
+        wrappedProxy = kBTC(proxyAddress);
 
         wrappedProxy.upgradeTo(address(impl));
     }

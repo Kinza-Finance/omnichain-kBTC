@@ -38,6 +38,7 @@ contract UnitTest is ProxyTestHelper {
         uint256 nonce = agg.nonce();
         uint256 beforeBalance = kbtc.balanceOf(receiver);
         offChainSignatureAggregator.Report memory report = offChainSignatureAggregator.Report({
+            btcTxId: "dummyBtcTxId",
             receiver: receiver,
             amount: amount,
             nonce: nonce + 1
@@ -90,6 +91,20 @@ contract UnitTest is ProxyTestHelper {
         mint(receiver, amount);
         vm.startPrank(signer);
         kbtc.emergencyBurn(receiver, amount);
+    }
+
+    function testUpdateYield() public {
+        uint256 newRate = 1.01 * 1e18;
+        vm.startPrank(signer);
+        agg.updateYield(newRate);
+    }
+
+    function testReflectSlash() public {
+        uint256 rate = 1e18;
+        vm.startPrank(signer);
+        // initial assignment in implementation contract not available
+        agg.updateYield(rate);
+        agg.reflectSlash(rate * 9 / 10);
     }
 
     function _deployOAppProxy(address _endpoint, address _owner, address implementationAddress)

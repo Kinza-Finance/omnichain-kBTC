@@ -14,6 +14,7 @@ contract MintScript is Script {
         offChainSignatureAggregator agg = offChainSignatureAggregator(0x7dcAB6B8B83b4E7eD2d2979754f03331fD55d7cf);
         //kbBTC token = kbBTC(0xBB9f85fB301F33513C6596Bc0B2EAB8A243a3Cee);
         offChainSignatureAggregator.Report memory report = offChainSignatureAggregator.Report(
+            "dummyBtcTxId",
             0xCc3fBD1ff6E1e2404D0210823C78ae74085b6235,
             0.0001 * 1e18,
             1

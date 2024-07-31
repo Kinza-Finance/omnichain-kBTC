@@ -28,6 +28,7 @@ contract offChainSignatureAggregator is Ownable() {
 
     event SignerUpdated(address signer, bool right);
     event ThresholdUpdated(uint256 newThreshold);
+    event NewYieldAdmin(address newYieldAdmin);
     struct Report {
         bytes32 btcTxId;
         address receiver;
@@ -114,7 +115,9 @@ contract offChainSignatureAggregator is Ownable() {
     }
 
     function updateYieldAdmin(address _newYieldAdmin) external onlyOwner {
+        require(_newYieldAdmin != address(0), "new yield admin is the zero address");
         yieldAdmin = _newYieldAdmin;
+        emit NewYieldAdmin(_newYieldAdmin);
     }
 
     function setSigners(address[] memory _signers, bool[] memory _rights) public onlyOwner {

@@ -38,7 +38,8 @@ contract UnitTest is ProxyTestHelper {
         uint256 nonce = agg.nonce();
         uint256 beforeBalance = kbtc.balanceOf(receiver);
         offChainSignatureAggregator.Report memory report = offChainSignatureAggregator.Report({
-            btcTxId: "dummyBtcTxId",
+            // test txid
+            btcTxId: 0xe33db240917a6d5328a9cc0a2224a7af5f43b2edf301417b4e79288fc8ee6cb5,
             receiver: receiver,
             amount: amount,
             nonce: nonce + 1

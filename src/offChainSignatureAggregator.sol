@@ -16,7 +16,7 @@ interface IkBTCYield {
 
 contract offChainSignatureAggregator is Ownable() {
     uint256 constant internal maxNumSigner = 8;
-    bytes32 public constant REPORT_HASH = keccak256("Report(address receiver,uint256 amount,uint256 nonce)");
+    bytes32 public constant REPORT_HASH = keccak256("Report(bytes32 btcTxId,address receiver,uint256 amount,uint256 nonce)");
     bytes32 public immutable DOMAIN_SEPARATOR;
     address public immutable kBTC;
 
@@ -24,12 +24,12 @@ contract offChainSignatureAggregator is Ownable() {
     uint256 public nonce;
     address public yieldAdmin;
     mapping(address => bool) public signers;
-    mapping(string => bool) public usedBtcTxID;
+    mapping(bytes32 => bool) public usedBtcTxID;
 
     event SignerUpdated(address signer, bool right);
     event ThresholdUpdated(uint256 newThreshold);
     struct Report {
-        string btcTxId;
+        bytes32 btcTxId;
         address receiver;
         uint256 amount;
         uint256 nonce;
@@ -67,7 +67,7 @@ contract offChainSignatureAggregator is Ownable() {
 
 
     function mintBTC(Report calldata r,  Signature[] memory _rs) external {
-        string memory btcTxId = r.btcTxId;
+        bytes32 btcTxId = r.btcTxId;
         require(!usedBtcTxID[btcTxId], "btcTxId is already used");
         usedBtcTxID[btcTxId] = true;
         _verifySignature(r, _rs);
@@ -99,6 +99,7 @@ contract offChainSignatureAggregator is Ownable() {
             keccak256(
                 abi.encode(
                     REPORT_HASH,
+                    report.btcTxId,
                     report.receiver,
                     report.amount,
                     report.nonce

@@ -108,6 +108,21 @@ contract UnitTest is ProxyTestHelper {
         agg.reflectSlash(rate * 9 / 10);
     }
 
+    function testUpdateYieldAdmin() public {
+        vm.startPrank(signer);
+        address _newYieldAdmin = address(0x1);
+        agg.updateYieldAdmin(_newYieldAdmin);
+        require(agg.yieldAdmin() == address(0x1));
+    }
+    function testUpdateYieldAdminRevert() public {
+        address stranger = address(0x1);
+        vm.startPrank(stranger);
+        vm.expectRevert();
+        agg.updateYieldAdmin(stranger);
+        
+
+    }
+
     function _deployOAppProxy(address _endpoint, address _owner, address implementationAddress)
         internal
         override

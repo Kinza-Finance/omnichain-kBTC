@@ -2,24 +2,35 @@
 pragma solidity ^0.8.21;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import { ECDSA } from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
 interface IERC20Mintable {
     function mint(address,uint256) external;
 }
 
+interface IkBTCYield {
+    function updateYield(uint256 newRate) external;
+    function reflectSlash(uint256 newRate) external;
+
+}
+
 contract offChainSignatureAggregator is Ownable() {
     uint256 constant internal maxNumSigner = 8;
-    bytes32 public constant REPORT_HASH = keccak256("Report(address receiver,uint256 amount,uint256 nonce)");
+    bytes32 public constant REPORT_HASH = keccak256("Report(bytes32 btcTxId,address receiver,uint256 amount,uint256 nonce)");
     bytes32 public immutable DOMAIN_SEPARATOR;
     address public immutable kBTC;
 
     uint256 public threshold = 1;
     uint256 public nonce;
+    address public yieldAdmin;
     mapping(address => bool) public signers;
+    mapping(bytes32 => bool) public usedBtcTxID;
 
     event SignerUpdated(address signer, bool right);
-
+    event ThresholdUpdated(uint256 newThreshold);
+    event NewYieldAdmin(address newYieldAdmin);
     struct Report {
+        bytes32 btcTxId;
         address receiver;
         uint256 amount;
         uint256 nonce;
@@ -29,6 +40,11 @@ contract offChainSignatureAggregator is Ownable() {
         uint8 v;
         bytes32 r;
         bytes32 s;
+    }
+
+    modifier onlyYieldAdmin() {
+        require(msg.sender == yieldAdmin, "caller is not yield admin");
+        _;
     }
 
     constructor(address _kBTC) {
@@ -47,12 +63,15 @@ contract offChainSignatureAggregator is Ownable() {
         signer[0] = msg.sender;
         valid[0] = true;
         setSigners(signer, valid);
+        yieldAdmin = msg.sender;
     }
 
 
     function mintBTC(Report calldata r,  Signature[] memory _rs) external {
+        bytes32 btcTxId = r.btcTxId;
+        require(!usedBtcTxID[btcTxId], "btcTxId is already used");
+        usedBtcTxID[btcTxId] = true;
         _verifySignature(r, _rs);
-
         IERC20Mintable(kBTC).mint(r.receiver, r.amount);
     }
 
@@ -66,7 +85,7 @@ contract offChainSignatureAggregator is Ownable() {
 
         for (uint i = 0; i < _rs.length; i++) {
             Signature memory s = _rs[i];
-            address signer = ecrecover(digest, s.v, s.r, s.s);
+            address signer = ECDSA.recover(digest, s.v, s.r, s.s);
             require(signers[signer], "unauthorized");
             // signature duplication check using bytes32 r, sufficient when sorted in ascending order.
             require(uint256(s.r) >= uint256(r), "not sorted r");
@@ -81,6 +100,7 @@ contract offChainSignatureAggregator is Ownable() {
             keccak256(
                 abi.encode(
                     REPORT_HASH,
+                    report.btcTxId,
                     report.receiver,
                     report.amount,
                     report.nonce
@@ -91,6 +111,13 @@ contract offChainSignatureAggregator is Ownable() {
     function updateThreshold(uint256 _newThreshold) external onlyOwner {
         require(_newThreshold <= maxNumSigner, "max number of signer breached");
         threshold = _newThreshold;
+        emit ThresholdUpdated(_newThreshold);
+    }
+
+    function updateYieldAdmin(address _newYieldAdmin) external onlyOwner {
+        require(_newYieldAdmin != address(0), "new yield admin is the zero address");
+        yieldAdmin = _newYieldAdmin;
+        emit NewYieldAdmin(_newYieldAdmin);
     }
 
     function setSigners(address[] memory _signers, bool[] memory _rights) public onlyOwner {
@@ -99,4 +126,13 @@ contract offChainSignatureAggregator is Ownable() {
             emit SignerUpdated(_signers[i], _rights[i]);
        }
     }
+
+    function updateYield(uint256 _newRate) external onlyYieldAdmin {
+        IkBTCYield(kBTC).updateYield(_newRate);
+    }
+
+    function reflectSlash(uint256 _newRate) external onlyYieldAdmin {
+        IkBTCYield(kBTC).reflectSlash(_newRate);
+    }
+
 }

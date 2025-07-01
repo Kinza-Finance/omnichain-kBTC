@@ -23,10 +23,14 @@ contract DeploykBTC is Script, BaseDeployer {
 
     function setUp() public {
         // Endpoint configuration from: https://docs.layerzero.network/contracts/endpoint-addresses
-        // targetChains.push(LayerZeroChainDeployment(Chains.Ethereum, 0x1a44076050125825900e736c501f859c50fE728c));
-        // targetChains.push(LayerZeroChainDeployment(Chains.Bsc, 0x1a44076050125825900e736c501f859c50fE728c));
+        // 	30181
+        targetChains.push(LayerZeroChainDeployment(Chains.Mantle, 0x1a44076050125825900e736c501f859c50fE728c));
+        //  30202
         // targetChains.push(LayerZeroChainDeployment(Chains.Opbnb, 0x1a44076050125825900e736c501f859c50fE728c));
-         targetChains.push(LayerZeroChainDeployment(Chains.Mantle, 0x1a44076050125825900e736c501f859c50fE728c));
+        // 30102
+        // targetChains.push(LayerZeroChainDeployment(Chains.Bsc, 0x1a44076050125825900e736c501f859c50fE728c));
+        // // 30101
+        // targetChains.push(LayerZeroChainDeployment(Chains.Ethereum, 0x1a44076050125825900e736c501f859c50fE728c));
         //targetChains.push(LayerZeroChainDeployment(Chains.MantleSepolia, 0x6EDCE65403992e310A62460808c4b910D972f10f));
         
     }
@@ -110,8 +114,11 @@ contract DeploykBTC is Script, BaseDeployer {
                 abi.encode(
                     kbtccreate2addrkBTC, abi.encodeWithSelector(OFT.initialize.selector, "Kinza Babylon Staked BTC", "kBTC", lzEndpoint, ownerAddress)
                 )
-            )
-        );
+            ));
+        bytes memory x = abi.encodeWithSelector(OFT.initialize.selector, "Kinza Babylon Staked BTC", "kBTC", lzEndpoint, ownerAddress);
+        console2.log("important constructor");
+        console2.logBytes(x);
+        
 
         _;
     }

@@ -7,25 +7,25 @@ libs = ["lib"]
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
 
 [rpc_endpoints]
-mumbai = "${MUMBAI_RPC_URL}"
-sepolia = "${SEPOLIA_RPC_URL}"
-bsctest = "${BSCTEST_RPC_URL}"
-mantlesepolia = "${MANTLE_SEPOLIA_RPC_URL}"
-opbnbtest = "${OPBNBTEST_RPC_URL}"
-arbitriumsepolia = "${ARBSEPOLIA_RPC_URL}"
-ethereum = "${ETHEREUM_RPC_URL}"
-mantle = "${MANTLE_RPC_URL}"
-bsc = "${BSC_RPC_URL}"
-opbnb = "${OPBNB_RPC_URL}"
+# mumbai = "${MUMBAI_RPC_URL}"
+# sepolia = "${SEPOLIA_RPC_URL}"
+# bsctest = "${BSCTEST_RPC_URL}"
+# mantlesepolia = "${MANTLE_SEPOLIA_RPC_URL}"
+# opbnbtest = "${OPBNBTEST_RPC_URL}"
+# arbitriumsepolia = "${ARBSEPOLIA_RPC_URL}"
+# ethereum = "${ETHEREUM_RPC_URL}"
+# mantle = "${MANTLE_RPC_URL}"
+# bsc = "${BSC_RPC_URL}"
+# opbnb = "${OPBNB_RPC_URL}"
 
 [etherscan]
-arbitriumsepolia = { key = "${ARBSCAN_API_KEY}" }
-mumbai = { key = "${POLYGONSCAN_API_KEY}", chain = "mumbai" }
-sepolia = { key = "${ETHERSCAN_API_KEY}" }
-bsctest = { key = "${BSCTEST_API_KEY}" }
-mantleSepolia = { key = "${MANTLE_SEPOLIA_API_KEY}" }
-opbnbtest  = { key = "${OPBNBTEST_API_KEY}" }
-ethereum =  { key ="${ETHERSCAN_API_KEY}"}
-mantle =  { key ="${MANTLESCAN_API_KEY}"}
-bsc =  { key ="${BSCSCAN_API_KEY}"}
-opbnb =  { key ="${OPBNBSCAN_API_KEY}"}
+# arbitriumsepolia = { key = "${ARBSCAN_API_KEY}" }
+# mumbai = { key = "${POLYGONSCAN_API_KEY}", chain = "mumbai" }
+# sepolia = { key = "${ETHERSCAN_API_KEY}" }
+# bsctest = { key = "${BSCTEST_API_KEY}" }
+# mantleSepolia = { key = "${MANTLE_SEPOLIA_API_KEY}" }
+# opbnbtest  = { key = "${OPBNBTEST_API_KEY}" }
+# ethereum =  { key ="${ETHERSCAN_API_KEY}"}
+# mantle =  { key ="${MANTLESCAN_API_KEY}"}
+# bsc =  { key ="${BSCSCAN_API_KEY}"}
+# opbnb =  { key ="${OPBNBSCAN_API_KEY}"}

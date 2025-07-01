@@ -13,10 +13,10 @@ contract AggregatorScript is Script {
     function run() public {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
-        address deployer = address(0xCc3fBD1ff6E1e2404D0210823C78ae74085b6235);
-        IOFT proxy = IOFT(0x28e48a431BE3212566E895ce1962a7109BeF8731);
+        address deployer = address(0xDE6A2451A4ACeb6D540Bd216578C84503639EbF1);
+        IOFT proxy = IOFT(0x9356f6d95b8E109F4b7Ce3E49D672967d3B48383);
         // 40102 bsctest // 40231 arb sepolia
-        uint32 dstEid = 40102;
+        uint32 dstEid = 30101;
         bytes32 to = bytes32(uint256(uint160(deployer)));
         uint256 tokensToSend = 0.0001 ether;
         bytes memory options = OptionsBuilder.newOptions().addExecutorLzReceiveOption(200000, 0);

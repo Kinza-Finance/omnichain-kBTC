@@ -1,5 +1,5 @@
 ## Omnichian kBTC
-kBTC is backed 1:1 by BTC staked to the [Babylon Protocol](https://babylonscan.io/). The staker wallet is a 2-3 MPC wallet operated by Cobo, Kinza and Coincover (independent 3-rd party for emergency recovery), empowered by Cobo Technology.
+kBTC is backed 1:1 by BTC staked to the [Babylon Protocol](https://btcstaking.babylonlabs.io/). The staker wallet is a 2-3 MPC wallet operated by Cobo, Kinza and Coincover (independent 3-rd party for emergency recovery), empowered by Cobo Technology.
 
 
 ## Stage 1 Launch 
